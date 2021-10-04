@@ -4,6 +4,7 @@ let data= [
     {name:"The Dark Knight", genre:"drama"}
 ]
 
+
 exports.getReviews=(req,res,next)=> {
     res.status(200).json({success:true, data:data})
 }
@@ -13,7 +14,9 @@ exports.postReview=(req,res,next)=> {
 }
 
 exports.getReview=(req,res,next)=> {
-    res.status(200).json({success:true, message:`your movie review ${req.params.id}`})
+    let singleReview= data[+req.params.id-1]
+
+    res.status(200).json({success:true, data:singleReview})
 }
 
 exports.updateReview=(req,res,next)=> {
