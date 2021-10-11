@@ -1,4 +1,8 @@
-let data= [
+const Reviews = require("../models/reviewModel");
+
+ 
+
+ let data= [
     {name:"Intrasteller", genre:"science fiction"},
     {name:"Arthur", genre:"mythology"},
     {name:"The Dark Knight", genre:"drama"}
