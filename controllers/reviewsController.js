@@ -42,10 +42,30 @@ exports.getReview=async (req,res,next)=> {
    
 }
 
-exports.updateReview=(req,res,next)=> {
-    res.status(200).json({success:true, message:`your movie review ${req.params.id} is updated`})
+exports.updateReview= async (req,res,next)=> {
+
+    try {
+        let updateReview=await Reviews.findByIdAndUpdate(req.params.id,req.body, {
+            new:true,
+            runValidators:true
+        })
+        res.status(200).json({success:true,data:updateReview, message:`your movie review is updated`})    
+    } catch (error) {
+        res.status(404).json({
+            success:false,
+            error:error
+        })     
+    }
 }
 
-exports.deleteReview=(req,res,next)=> {
-    res.status(200).json({success:true, message:`your movie review ${req.params.id} is deleted`})
+exports.deleteReview=async (req,res,next)=> {
+    try {
+        let delReview=await Reviews.findByIdAndDelete(req.params.id);
+        res.status(200).json({success:true,data:{}, message:`your movie review is deleted`})    
+    } catch (error) {
+        res.status(404).json({
+            success:false,
+            error:error
+        })     
+    }
 }
