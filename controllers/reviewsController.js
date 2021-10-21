@@ -26,10 +26,20 @@ exports.postReview=async (req,res,next)=> {
     
 }
 
-exports.getReview=(req,res,next)=> {
-    let singleReview= data[+req.params.id-1]
+exports.getReview=async (req,res,next)=> {
+    try {
+        let indReview= await Reviews.findById(req.params.id);
+        res.status(200).json({success:true, data:indReview, message:"Single Review send"})
+        
+    } catch (error) {
+        
+        res.status(404).json({
+            error:error
+        })
 
-    res.status(200).json({success:true, data:singleReview})
+    }
+
+   
 }
 
 exports.updateReview=(req,res,next)=> {
