@@ -45,11 +45,7 @@ exports.getReview=async (req,res,next)=> {
         res.status(200).json({success:true, data:indReview, message:"Single Review send"})
         
     } catch (error) {
-        
-        res.status(404).json({
-            error:error
-        })
-
+            next(error)
     }
 
    

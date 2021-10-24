@@ -3,7 +3,7 @@ const dotenv= require ("dotenv");
 dotenv.config({path:"./config/config.env"});
 
 const connectDB= require("./config/db");
-
+const ErrorHandler= require("./middlewares/errorHandler");
 
 
 connectDB();
@@ -17,7 +17,7 @@ app.use(express.json());
 const PORT= process.env.PORT || 5000;
 
 app.use("/api/v1/reviews", reviewsRoute);
-
+app.use(ErrorHandler);
 
 
 
