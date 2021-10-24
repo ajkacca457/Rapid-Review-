@@ -12,8 +12,8 @@ exports.getReviews= async (req,res,next)=> {
             })            
         }
     }
-    catch(err) {
-        res.status(404).json({success:false,error:err})
+    catch(error) {
+        next(error)
     }
 }
 
@@ -29,10 +29,8 @@ exports.postReview=async (req,res,next)=> {
                             data:newReview,
                             message:"your movie review is created"})
                         }
-    catch(err) {
-        res.status(404).json({
-            error:err
-        })
+    catch(error) {
+        next(error)
     }
     
 }
@@ -48,7 +46,7 @@ exports.getReview=async (req,res,next)=> {
         
     } catch (error) {
         //sends if the request is not formatted or something unacceptable
-            next(new ErrorResponse(`${req.params.id} is not valid id or does not exist.`,404)) 
+            next(error) 
     }
    
 }
@@ -68,10 +66,7 @@ exports.updateReview= async (req,res,next)=> {
         }
         res.status(200).json({success:true,data:updateReview, message:`your movie review is updated`})    
     } catch (error) {
-        res.status(404).json({
-            success:false,
-            error:error
-        })     
+        next(error)    
     }
 }
 

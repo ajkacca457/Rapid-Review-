@@ -1,12 +1,19 @@
-const ErrorHandler=(err,req,res,nex)=>{
+const ErrorResponse= require("../utils/ErrorResponse")
 
-    console.log(err.message);
-    console.log(err.statusCode);
+const ErrorHandler=(err,req,res,next)=>{
+    let error= {...err};
+    error.message= err.message;
 
-    let statusCode= err.statusCode || 500;
+    if(err.name==="CastError") {
+        let message=`The review ${error.value} is invalid.It is not the right Id `;
+        error= new ErrorResponse(message,404)
+    }
+
+
+    let statusCode= error.statusCode || 500;
     res.status(statusCode).json({
         success:false,
-        error:err.message
+        error:error.message || "server error"
     })
 
 }
