@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+const slugify=require("slugify");
 
 
 const ReviewSchema= new mongoose.Schema({
@@ -39,7 +40,10 @@ createdAt : {
 
 });
 
-
+ReviewSchema.pre("save",function(next){
+this.slug= slugify(this.title,{lower:true})
+next()
+})
 
 
 module.exports= mongoose.model("Reviews", ReviewSchema); 
