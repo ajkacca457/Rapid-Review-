@@ -1,4 +1,5 @@
 const Reviews = require("../models/reviewModel");
+const ErrorResponse= require("../utils/ErrorResponse");
 
 
 exports.getReviews= async (req,res,next)=> {
@@ -40,14 +41,15 @@ exports.getReview=async (req,res,next)=> {
     try {
         let indReview= await Reviews.findById(req.params.id);
         if(!indReview){
+        //sends if the request is not formatted properly but not exits
             return res.status(400).json({success:false})
         }
         res.status(200).json({success:true, data:indReview, message:"Single Review send"})
         
     } catch (error) {
-            next(error)
+        //sends if the request is not formatted or something unacceptable
+            next(new ErrorResponse(`${req.params.id} is not valid id or does not exist.`,404)) 
     }
-
    
 }
 
