@@ -20,11 +20,6 @@ exports.getReviews= async (req,res,next)=> {
 exports.postReview=async (req,res,next)=> {
     try {
         let newReview= await Reviews.create(req.body);
-        if(!newReview){
-            return res.status(400).json({
-                success:false
-            })
-        }
         res.status(201).json({success:true,
                             data:newReview,
                             message:"your movie review is created"})
@@ -40,7 +35,7 @@ exports.getReview=async (req,res,next)=> {
         let indReview= await Reviews.findById(req.params.id);
         if(!indReview){
         //sends if the request is not formatted properly but not exits
-            return res.status(400).json({success:false})
+            return new ErrorResponse(`the id of ${req.params.id} is badly formatted or non existent. Try with the right id.`, 404)
         }
         res.status(200).json({success:true, data:indReview, message:"Single Review send"})
         
@@ -59,9 +54,7 @@ exports.updateReview= async (req,res,next)=> {
             runValidators:true
         })
         if(!updateReview){
-            return res.status(400).json({
-                success:false
-            })
+            return new ErrorResponse(`the id of ${req.params.id} is badly formatted or non existent. Try with the right id.`, 404)
 
         }
         res.status(200).json({success:true,data:updateReview, message:`your movie review is updated`})    
