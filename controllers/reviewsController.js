@@ -4,8 +4,17 @@ const asyncHandler= require("../middlewares/asyncHandler");
 
 
 exports.getReviews= asyncHandler(async (req,res,next)=> {
-    let allReviews=await Reviews.find();
-        res.status(200).json({success:true, data:allReviews, message:"Here are all of your reviews"});
+    let query;
+    let reqQuery= {...req.query};
+    query = Reviews.find(reqQuery);
+    if(req.query.select) {
+        let fields= req.query.select.split(",").join(" ");
+        query=query.select(fields);
+    }
+
+    let allReviews=await query;
+
+        res.status(200).json({success:true,count:allReviews.length,data:allReviews, message:"Here are all of your reviews"});
         if(!allReviews) {
             return res.status(400).json({
                 success:false

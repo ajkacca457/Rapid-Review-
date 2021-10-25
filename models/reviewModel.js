@@ -19,7 +19,6 @@ description: {
 },
 author: {
     type: String,
-    unique:true,
     required:[true, "a review needs an author"]
 },
 rating: {
