@@ -6,11 +6,24 @@ const asyncHandler= require("../middlewares/asyncHandler");
 exports.getReviews= asyncHandler(async (req,res,next)=> {
     let query;
     let reqQuery= {...req.query};
+    let removeField=["select","sort"];
+    removeField.forEach(item=>delete reqQuery[item]);
+    
     query = Reviews.find(reqQuery);
+   
     if(req.query.select) {
         let fields= req.query.select.split(",").join(" ");
         query=query.select(fields);
+        console.log(req.query);
     }
+
+    if(req.query.sort) {
+        let sortBy= req.query.sort.split(",").join(" ");
+        query=query.sort(sortBy);
+    } else {
+        query=query.sort("-createdAt");
+    }
+
 
     let allReviews=await query;
 
