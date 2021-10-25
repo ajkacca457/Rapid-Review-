@@ -11,6 +11,11 @@ title : {
     trim:true,
     maxlength: [100, "Review title cannot be higher than 100 charachters"]
 },
+subtitle: {
+type:String,
+maxlength:[50, "subtitle cannot be more than 50 charachter long"]
+},
+
 slug: String,
 description: {
     type: String,
@@ -21,7 +26,7 @@ author: {
     type: String,
     required:[true, "a review needs an author"]
 },
-rating: {
+ratingType: {
     type:String,
     required:true,
     enum: [
@@ -31,6 +36,11 @@ rating: {
     ]
 
 },
+star: {
+type:Number,
+required:true
+},
+
 createdAt : {
     type:Date,
     default:Date.now
