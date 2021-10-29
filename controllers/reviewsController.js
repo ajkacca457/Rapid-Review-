@@ -26,11 +26,37 @@ exports.getReviews= asyncHandler(async (req,res,next)=> {
         query=query.sort("-createdAt");
     }
 
+
+    // creating pagination 
+
+    let page= parseInt(req.query.page,10)||1;
+    let limit=parseInt(req.query.limit,10)||10;
+    let startingIndex=(page-1)*limit;
+    let endIndex=page*limit;
+    let total= await Reviews.countDocuments();
+
+    let pagination={};
+
+    if(startingIndex>0){
+        pagination.prev={
+            page:page-1,
+            limit:limit
+        }
+    }
+
+    if(endIndex<total){
+        pagination.next={
+            page:page+1,
+            limit:limit
+        }
+    }
+
+
     //executing query using await
 
     let allReviews=await query;
 
-        res.status(200).json({success:true,count:allReviews.length,data:allReviews, message:"Here are all of your reviews"});
+        res.status(200).json({success:true,count:allReviews.length,pagination:pagination,data:allReviews, message:"Here are all of your reviews"});
         if(!allReviews) {
             return res.status(400).json({
                 success:false
