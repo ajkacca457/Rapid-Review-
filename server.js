@@ -11,12 +11,14 @@ connectDB();
 
 
 const reviewsRoute= require("./router/reviews.js");
+const authRoute= require( "./router/auth.js");
 
 const app= express();
 app.use(express.json());
 const PORT= process.env.PORT || 5000;
 
 app.use("/api/v1/reviews", reviewsRoute);
+app.use("/api/v1/auth", authRoute);
 app.use(ErrorHandler);
 
 
