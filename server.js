@@ -1,7 +1,7 @@
 const express= require("express");
 const dotenv= require ("dotenv");
 dotenv.config({path:"./config/config.env"});
-
+const cookieParser= require("cookie-parser");
 const connectDB= require("./config/db");
 const ErrorHandler= require("./middlewares/errorHandler");
 
@@ -15,6 +15,7 @@ const authRoute= require( "./router/auth.js");
 
 const app= express();
 app.use(express.json());
+app.use(cookieParser());
 const PORT= process.env.PORT || 5000;
 
 app.use("/api/v1/reviews", reviewsRoute);
