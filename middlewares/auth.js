@@ -21,8 +21,6 @@ if(!token) {
 
 try {
 let decoded= jsonwebtoken.verify(token,process.env.JWT_SECRET);
-console.log(decoded);
-
 req.user= await User.findById(decoded.id);
 next();
 

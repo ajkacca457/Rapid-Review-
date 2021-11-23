@@ -70,3 +70,16 @@ const sendTokenResponse= (user,statusCode,res)=> {
         token
     })
 }
+
+
+// controller for getting loggedin user detail 
+
+exports.getCurrentUser=asyncHandler(async (req,res,next)=> {
+    let user= await User.findById(req.user.id)
+
+    res.status(200).json({
+        success: true,
+        data: user
+    })
+
+})
