@@ -53,6 +53,43 @@ sendTokenResponse(user, 200, res);
 
 });
 
+
+
+// controller for getting loggedin user detail 
+
+exports.getCurrentUser=asyncHandler(async (req,res,next)=> {
+    let user= await User.findById(req.user.id)
+
+    res.status(200).json({
+        success: true,
+        data: user
+    })
+
+})
+
+
+// controller for getting forget password  
+
+exports.forgetPassword=asyncHandler(async (req,res,next)=> {
+    let user= await User.findOne({
+        email:req.body.email
+    });
+
+    if(!user) {
+        return next(new ErrorResponse("User is no found with this email",404))
+    }
+
+    const resetToken= user.getResetPasswordToken();
+    console.log(resetToken);
+
+    res.status(200).json({
+        success: true,
+        data: user,
+        token: resetToken
+    })
+
+})
+
 //get cookie from model, create and send cookie
 
 const sendTokenResponse= (user,statusCode,res)=> {
@@ -70,16 +107,3 @@ const sendTokenResponse= (user,statusCode,res)=> {
         token
     })
 }
-
-
-// controller for getting loggedin user detail 
-
-exports.getCurrentUser=asyncHandler(async (req,res,next)=> {
-    let user= await User.findById(req.user.id)
-
-    res.status(200).json({
-        success: true,
-        data: user
-    })
-
-})
