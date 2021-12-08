@@ -174,6 +174,23 @@ exports.updateDetails=asyncHandler(async (req,res,next)=> {
 })
 
 
+// controller for updating password 
+
+exports.updatePassword=asyncHandler(async (req,res,next)=> {
+    let user= await User.findById(req.user.id).select("+password");
+
+    if(!await user.matchPassword(req.body.currentPassword)) {
+        return next(new ErrorResponse("Password is incorrect"),401)
+    }
+
+    user.password= req.body.newPassword;
+    await user.save();
+
+    sendTokenResponse(user, 200, res);
+
+})
+
+
 //get cookie from model, create and send cookie
 
 const sendTokenResponse= (user,statusCode,res)=> {
