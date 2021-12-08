@@ -152,6 +152,28 @@ exports.resetPassword=asyncHandler(async (req,res,next)=> {
 })
 
 
+// Update user details for loggedin user 
+
+exports.updateDetails=asyncHandler(async (req,res,next)=> {
+
+    const filedsToUpdate= {
+         name:req.body.name,
+        email:req.body.email
+    }
+
+    let user= await User.findByIdAndUpdate(req.user.id,filedsToUpdate, {
+        new: true,
+        runValidators:true
+    });
+
+    res.status(200).json({
+        success: true,
+        data: user
+    })
+
+})
+
+
 //get cookie from model, create and send cookie
 
 const sendTokenResponse= (user,statusCode,res)=> {
